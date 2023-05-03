@@ -31,7 +31,7 @@
 </head>
 <body class="container-fluid">
     <div class="card" id="div1">
-        <h2 class="card-header text-center text-light bg-danger">Registration
+        <h2 class="card-header text-center text-light bg-danger">Register
             Form</h2>
         <form class="form" action="register" method="post">
             <table class="table table-hover table-striped">
