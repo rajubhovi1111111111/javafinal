@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <td>Mobile:</td>
-                    <td><input type="text" name="mobile"></td>
+                    <td><input type="text" name="mobi"></td>
                 </tr>
                 <tr>
                     <td>DOB:</td>
