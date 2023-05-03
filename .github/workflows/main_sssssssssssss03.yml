@@ -32,6 +32,9 @@ jobs:
         
       - name: Dependency Test
         run: mvn dependency:analyze
+        
+      - name: Run Mockito Tests
+        run: mvn test
 
 
 
