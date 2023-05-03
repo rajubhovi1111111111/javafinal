@@ -49,3 +49,4 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_921589FE6D5B457AA33E03883610C060 }}
           package: './target/TestServ-0.0.1-SNAPSHOT.war'
+          path: '/'
