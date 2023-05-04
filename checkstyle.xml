@@ -9,7 +9,7 @@
         
             <!-- Configuration for Braces and Line Wrapping -->
 <module name="RightCurly">
-    <property name="option" value="nl"/>
+    <property name="tokens" value="LITERAL_FOR, LITERAL_WHILE, LITERAL_DO, LITERAL_ELSE"/>
 </module>
 
     <module name="LineLength">
