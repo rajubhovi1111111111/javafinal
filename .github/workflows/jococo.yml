@@ -24,50 +24,14 @@ jobs:
       - name: Run Checkstyle
         run: mvn checkstyle:check
         
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build project with Maven
+        run: mvn clean install --file pom.xml
         
-      - name: Display target directory
-        run: ls target
-        
-      - name: List workspace contents
-        run: ls -R ${{ github.workspace }}
-
-  dependency-compile:
-    runs-on: ubuntu-latest
-    needs: checkstyle-build
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '8'
-
       - name: Dependency Test
         run: mvn dependency:analyze
         
-      - name: Compile with Maven
-        run: mvn compile
-        
-        
-        
-  run-tests:
-    runs-on: ubuntu-latest
-    needs: dependency-compile
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '8'
-          
-      - name: Run Tests
-        run: mvn test
-        
+      - name: Run Tests with Code Coverage
+        run: mvn test jacoco:report
 
       - name: Generate JaCoCo badge
         id: jacoco
@@ -85,40 +49,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
          name: jacoco-report
-         path: target
+         path: target/site/jacoco/
+
+
+
 
       - name: Get the Coverage info
         run: |
          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
           
-
-  package-artifact:
-    runs-on: ubuntu-latest
-    needs: run-tests
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '8'
-          
-      - name: Package Artifact
-        run: mvn package
-        
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: java-app
-          path: target
-        
-      - name: Display target directory
-        run: ls target
-        
-      - name: List workspace contents
-        run: ls -R ${{ github.workspace }}
-        
-        
- 
