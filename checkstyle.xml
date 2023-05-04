@@ -5,12 +5,6 @@
 
 <module name="Checker">
 
-        
-
-    <!-- Configuration for Indentation -->
-    <module name="Indentation">
-        <property name="basicOffset" value="4"/>
-    </module>
 
     <!-- Configuration for Naming Conventions -->
     <module name="NamingConventions">
