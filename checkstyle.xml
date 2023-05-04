@@ -6,6 +6,20 @@
 <module name="Checker">
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="warning"/>
+        
+            <!-- Configuration for Braces and Line Wrapping -->
+    <module name="RightCurly">
+        <property name="option" value="eol"/>
+    </module>
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
+    <!-- Configuration for Empty Blocks and Statements -->
+    <module name="EmptyBlock">
+        <property name="option" value="text"/>
+    </module>
+    <module name="EmptyStatement"/>
 
     <!-- Specify the Checkstyle rules to enable -->
     <module name="TreeWalker">
