@@ -8,9 +8,10 @@
     <property name="severity" value="warning"/>
         
             <!-- Configuration for Braces and Line Wrapping -->
-    <module name="RightCurly">
-        <property name="option" value="eol"/>
-    </module>
+<module name="RightCurly">
+    <property name="option" value="nl"/>
+</module>
+
     <module name="LineLength">
         <property name="max" value="120"/>
     </module>
