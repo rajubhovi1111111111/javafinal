@@ -35,29 +35,39 @@ jobs:
         run: mvn clean install
         
 
+      - name: Generate JaCoCo report
+        run: mvn jacoco:report
+
+      - name: Check JaCoCo report file
+        run: |
+          if [ ! -f target/site/jacoco/jacoco.csv ]; then
+            echo "ERROR: JaCoCo report file not found."
+            exit 1
+          fi
+
       - name: Generate JaCoCo badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
         with:
-         badges-directory: badges
-         generate-branches-badge: true
-         generate-summary: true
+          badges-directory: badges
+          generate-branches-badge: true
+          generate-summary: true
 
       - name: Log coverage percentages to workflow output
         run: |
-         echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-         echo "branches = ${{ steps.jacoco.outputs.branches }}"
+          echo "Coverage: ${{ steps.jacoco.outputs.coverage }}"
+          echo "Branches: ${{ steps.jacoco.outputs.branches }}"
+
       - name: Upload JaCoCo coverage report as a workflow artifact
         uses: actions/upload-artifact@v3
         with:
-         name: jacoco-report
-         path: target
+          name: jacoco-report
+          path: target/site/jacoco/
 
       - name: Get the Coverage info
         run: |
-         echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-         echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
-          
+          echo "Total coverage: ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage: ${{ steps.jacoco.outputs.coverage-changed-files }}"  
         
       - name: Display target directory
         run: ls target
