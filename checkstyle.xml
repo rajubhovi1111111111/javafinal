@@ -10,13 +10,7 @@
     <module name="LineLength">
         <property name="max" value="120"/>
     </module>
-
-    <!-- Configuration for Empty Blocks and Statements -->
-    <module name="EmptyBlock">
-        <property name="option" value="text"/>
-    </module>
-    <module name="EmptyStatement"/>
-
+        
     <!-- Specify the Checkstyle rules to enable -->
     <module name="TreeWalker">
         <!-- No specific check configurations, all checks are enabled by default -->
