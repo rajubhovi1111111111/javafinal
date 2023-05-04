@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  checkstyle-build:
     runs-on: windows-latest
 
     steps:
@@ -27,29 +27,65 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Compile with Maven
-        run: mvn compile
-        
+  dependency-compile:
+    runs-on: windows-latest
+    needs: checkstyle-build
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '8'
+
       - name: Dependency Test
         run: mvn dependency:analyze
         
+      - name: Compile with Maven
+        run: mvn compile
+        
+        
+        
+  run-tests:
+    runs-on: windows-latest
+    needs: dependency-compile
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '8'
+          
       - name: Run Mockito Tests
         run: mvn test
+        
+        
+        
+    
+  package-artifact:
+    runs-on: windows-latest
+    needs: run-tests
 
+    steps:
+      - uses: actions/checkout@v2
 
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+      - name: Set up Java version
+        uses: actions/setup-java@v1
         with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.war'
-
+          java-version: '8'
+          
+      - name: Package Artifact
+        run: mvn package
+        
+        
+        
+      
   deploy:
     runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    needs: package-artifact
 
     steps:
       - name: Download artifact from build job
@@ -65,4 +101,7 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3169C88005B849AEAF85A276F8287CD8 }}
           package: '*.war'
-          path : '/'
+          path: '/'
+
+
+
